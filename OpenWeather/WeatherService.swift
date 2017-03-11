@@ -17,7 +17,7 @@ class WeatherService {
     
     // Service to get weather deatails for particulat city
     
-    func getWeatherForCity(city: String,  successHandler:@escaping (WeatherDetail)-> Void) {
+    func getWeatherForCity(city: String,  completionHandler:@escaping (WeatherDetail?, String?)-> Void) {
         
         // This is a pretty simple networking task, so the shared session will do.
         let config = URLSessionConfiguration.default
@@ -29,6 +29,7 @@ class WeatherService {
             
             if error != nil {
                 print(error!.localizedDescription)
+                completionHandler(nil,error!.localizedDescription);
             } else {
                 do {
                     
@@ -36,10 +37,11 @@ class WeatherService {
                     {
                         //Implement your logic
                         let weatherDetail = WeatherDetail.init(dictionary: json as NSDictionary)
-                        print(weatherDetail!.weather![0].description!)
-                        successHandler(weatherDetail!)
-                     
                         
+                        DispatchQueue.main.async() { () -> Void in
+                            completionHandler(weatherDetail!,nil)
+                        }
+                    
                     }
                     
                 } catch {
