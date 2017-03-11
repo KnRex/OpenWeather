@@ -65,17 +65,25 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zY8-lv-ANs">
-                                                    <rect key="frame" x="137" y="11" width="42" height="21"/>
+                                                    <rect key="frame" x="187" y="11" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=":" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MQd-lF-NEH" userLabel="colon">
+                                                    <rect key="frame" x="137" y="11.5" width="5" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="MQd-lF-NEH" firstAttribute="leading" secondItem="p1W-ss-h8c" secondAttribute="leading" constant="120" id="ADS-x1-5a4"/>
                                                 <constraint firstItem="zY8-lv-ANs" firstAttribute="centerY" secondItem="rOv-P2-PY0" secondAttribute="centerY" id="JOM-Vo-lFb"/>
                                                 <constraint firstItem="p1W-ss-h8c" firstAttribute="leading" secondItem="rOv-P2-PY0" secondAttribute="leadingMargin" constant="9" id="RfK-Nh-FNk"/>
                                                 <constraint firstItem="p1W-ss-h8c" firstAttribute="centerY" secondItem="rOv-P2-PY0" secondAttribute="centerY" id="mln-Lj-FJY"/>
-                                                <constraint firstItem="zY8-lv-ANs" firstAttribute="leading" secondItem="p1W-ss-h8c" secondAttribute="leading" constant="120" id="zRU-2c-yCf"/>
+                                                <constraint firstItem="zY8-lv-ANs" firstAttribute="leading" secondItem="MQd-lF-NEH" secondAttribute="leading" constant="50" id="rzf-h6-hhO"/>
+                                                <constraint firstItem="MQd-lF-NEH" firstAttribute="centerY" secondItem="rOv-P2-PY0" secondAttribute="centerY" id="zGA-NL-UO1"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>

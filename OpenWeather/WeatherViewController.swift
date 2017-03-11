@@ -37,11 +37,17 @@ class WeatherViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.delegate = self
         tableView.dataSource = self
         searchField.delegate = self
+        
+        if(CommonUtils.getLastSearchedCity()==nil){
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
         locationManager.distanceFilter = kCLLocationAccuracyHundredMeters;
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+        }
+        else{
+            getWeatherForCity(city: CommonUtils.getLastSearchedCity()!)
+        }
         
     }
 
@@ -97,7 +103,7 @@ class WeatherViewController: UIViewController, UITableViewDataSource, UITableVie
         
         let weatherInfo = tableViewData[indexPath.row]
         
-        cell.keyLabel.text = weatherInfo.info! + " : "
+        cell.keyLabel.text = weatherInfo.info!
         cell.valueLabel.text = weatherInfo.value
         
         return cell;
@@ -105,6 +111,7 @@ class WeatherViewController: UIViewController, UITableViewDataSource, UITableVie
     
     // Update weather info to the screen
     func updateWeatherInfo(result : WeatherDetail?){
+        CommonUtils.saveSearchedCity(value: result!.name!)
         let sunrise =  WeatherInfo(info: "Sunrise", value: String(result!.sys!.sunrise!))
         let sunset =  WeatherInfo(info: "Sunset", value: String(result!.sys!.sunset!))
         let humidity = WeatherInfo(info: "Humidity", value:String(result!.main!.humidity!))
