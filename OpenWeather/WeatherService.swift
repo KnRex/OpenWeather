@@ -1,3 +1,4 @@
+
 //
 //  WeatherService.swift
 //  OpenWeather
@@ -35,12 +36,37 @@ class WeatherService {
                     
                     if let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any]
                     {
-                        //Implement your logic
-                        let weatherDetail = WeatherDetail.init(dictionary: json as NSDictionary)
+                        let response = json as NSDictionary
                         
-                        DispatchQueue.main.async() { () -> Void in
-                            completionHandler(weatherDetail!,nil)
+                        var responseCode:Int?
+                        
+                        if  response.value(forKey: "cod") is String {
+                            responseCode = Int(response.value(forKey: "cod")as! String);
                         }
+                        else{
+                            
+                            responseCode = response.value(forKey: "cod")as? Int
+                        }
+                        
+                        
+                        if responseCode! == 200 {
+                            let weatherDetail = WeatherDetail.init(dictionary: json as NSDictionary)
+                            
+                            
+                            DispatchQueue.main.async() { () -> Void in
+                                completionHandler(weatherDetail!,nil)
+                            }
+                        }
+                        else{
+                            DispatchQueue.main.async() { () -> Void in
+                                print(response)
+                            completionHandler(nil,response.value(forKey: "message")as? String)
+                            }
+                        }
+                     
+                        
+                        
+                        
                     
                     }
                     

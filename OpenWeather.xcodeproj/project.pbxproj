@@ -26,7 +26,6 @@
 		63D635991E743E7200C30531 /* CommonUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D635981E743E7200C30531 /* CommonUtils.swift */; };
 		63D6359D1E74448A00C30531 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D6359C1E74448A00C30531 /* DataService.swift */; };
 		63D635A01E7452D000C30531 /* Search-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 63D6359F1E7452D000C30531 /* Search-50.png */; };
-		63D635A41E74560300C30531 /* CitySearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D635A31E74560300C30531 /* CitySearchViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,7 +62,6 @@
 		63D635981E743E7200C30531 /* CommonUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonUtils.swift; sourceTree = "<group>"; };
 		63D6359C1E74448A00C30531 /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		63D6359F1E7452D000C30531 /* Search-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Search-50.png"; sourceTree = "<group>"; };
-		63D635A31E74560300C30531 /* CitySearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitySearchViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,7 +138,6 @@
 				639396E51E7384EB00F9116E /* LaunchScreen.storyboard */,
 				639396E81E7384EB00F9116E /* Info.plist */,
 				632E6D611E73B5940087F1ED /* WeatherDayViewCell.swift */,
-				63D635A31E74560300C30531 /* CitySearchViewController.swift */,
 			);
 			path = OpenWeather;
 			sourceTree = "<group>";
@@ -286,7 +283,6 @@
 				6315FCF51E73D2E100845F46 /* WeatherDetail.swift in Sources */,
 				63D635961E74348D00C30531 /* WeatherInfo.swift in Sources */,
 				639396DF1E7384EB00F9116E /* WeatherViewController.swift in Sources */,
-				63D635A41E74560300C30531 /* CitySearchViewController.swift in Sources */,
 				639396DD1E7384EB00F9116E /* AppDelegate.swift in Sources */,
 				6315FCF91E73D2E100845F46 /* Wind.swift in Sources */,
 			);

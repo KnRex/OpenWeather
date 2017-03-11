@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class WeatherViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate {
+class WeatherViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, UISearchBarDelegate {
     
     
     @IBOutlet weak var cityLabel: UILabel!
@@ -22,7 +22,10 @@ class WeatherViewController: UIViewController, UITableViewDataSource, UITableVie
     
     @IBOutlet weak var descriptionLabel: UILabel!
     
+    @IBOutlet weak var searchField: UISearchBar!
+    
     var locationManager: CLLocationManager = CLLocationManager()
+    
     
     var tableViewData = [WeatherInfo]()
     
@@ -30,14 +33,15 @@ class WeatherViewController: UIViewController, UITableViewDataSource, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         tableView.delegate = self
         tableView.dataSource = self
+        searchField.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
         locationManager.distanceFilter = kCLLocationAccuracyHundredMeters;
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-
         
     }
 
@@ -52,12 +56,20 @@ class WeatherViewController: UIViewController, UITableViewDataSource, UITableVie
         weatherService.getWeatherForCity(city: city){
             (result: WeatherDetail?, error:String?) in
             if  error == nil{
+                if(result!.cod==200){
                 self.updateWeatherInfo(result: result)
+                }
             }
             else{
-                let alert = UIAlertController(title: "Alert", message:error!, preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                DispatchQueue.main.async() { () -> Void in
+                    let myAlert = UIAlertView()
+                    myAlert.title = "Alert!"
+                    myAlert.message = error!
+                    myAlert.addButton(withTitle: "Ok")
+                    myAlert.delegate = self   
+                    myAlert.show()
+                
+                }
             }
         };
         
@@ -106,8 +118,12 @@ class WeatherViewController: UIViewController, UITableViewDataSource, UITableVie
         self.tableViewData.append(windSpeed)
         self.tableView.reloadData()
         descriptionLabel.text =  result!.weather![0].description!
-        weatherTemp.text = CommonUtils.convertKelvinToFarenheit(value: result!.main!.temp!)
+        let temperature = CommonUtils.convertKelvinToFarenheit(value: result!.main!.temp!) + "\u{00B0}" + " F / " + ""+CommonUtils.convertKelvinToCelsius(value: result!.main!.temp!) + "\u{00B0}" + " C ";
+            
+        weatherTemp.text = temperature
         self.downloadImage(imageName: result!.weather![0].icon!)
+        
+        cityLabel.text = result!.name!;
         
     }
     
@@ -126,6 +142,24 @@ class WeatherViewController: UIViewController, UITableViewDataSource, UITableVie
            
         }
     }
+    
+    
+    //MARK: SearchBar Delegates
+    public func searchBarTextDidEndEditing(_ searchBar: UISearchBar){
+        if let searchTextField:UITextField = searchBar.subviews[0].subviews[2] as? UITextField {
+            searchTextField.enablesReturnKeyAutomatically = false
+            print(searchTextField.text!)
+        }
+    
+}
+    
+    public func searchBarSearchButtonClicked(_ searchBar: UISearchBar){
+        print(searchBar.text!)
+       self.getWeatherForCity(city: searchBar.text!)
+        
+    }
+    
+    
     
     //MARK: Location Delegates
     
@@ -166,6 +200,8 @@ class WeatherViewController: UIViewController, UITableViewDataSource, UITableVie
     }
         
     }
+    
+    
     
 
 }

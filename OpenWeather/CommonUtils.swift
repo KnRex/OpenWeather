@@ -19,4 +19,11 @@ class CommonUtils{
         
     }
     
+    //function to convert farenheit to celsius
+    
+    static func convertKelvinToCelsius(value: Double?)->String{
+        let temp =  value! - 273
+        return String((floor(temp)))
+    }
+    
 }
