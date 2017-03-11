@@ -23,11 +23,36 @@ class OpenWeatherTests: XCTestCase {
     
     func testExample() {
         
-        //let weatherService = WeatherService();
+        let weatherService = WeatherService();
         
-       // weatherService.getWeatherForCity(city: <#T##String#>, completionHandler: <#T##(WeatherDetail?, String?) -> Void#>)
-    
-    }
+        let testExpectation = expectation(description: "Got weather info")
+
+        weatherService.getWeatherForCity(city: "norwalk"){
+            (result: WeatherDetail?, error:String?) in
+            if  error == nil{
+                if(result!.cod==200){
+                    
+                    XCTAssert(true)
+                }
+            }
+            else{
+                XCTFail("Error: \(error)")
+
+            }
+            testExpectation.fulfill()
+
+        }
+
+        self.waitForExpectations(timeout: 10) { error in
+                if let error = error {
+                    XCTFail("Service Timeout : \(error)")
+                }
+
+            }
+        
+
+        }
+
     
     func testPerformanceExample() {
         // This is an example of a performance test case.
