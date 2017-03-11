@@ -26,6 +26,7 @@
 		63D635991E743E7200C30531 /* CommonUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D635981E743E7200C30531 /* CommonUtils.swift */; };
 		63D6359D1E74448A00C30531 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D6359C1E74448A00C30531 /* DataService.swift */; };
 		63D635A01E7452D000C30531 /* Search-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 63D6359F1E7452D000C30531 /* Search-50.png */; };
+		63D635A61E7494D400C30531 /* weather_launch.png in Resources */ = {isa = PBXBuildFile; fileRef = 63D635A51E7494D400C30531 /* weather_launch.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		63D635981E743E7200C30531 /* CommonUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonUtils.swift; sourceTree = "<group>"; };
 		63D6359C1E74448A00C30531 /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		63D6359F1E7452D000C30531 /* Search-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Search-50.png"; sourceTree = "<group>"; };
+		63D635A51E7494D400C30531 /* weather_launch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weather_launch.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +164,7 @@
 		63D6359E1E7452C300C30531 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				63D635A51E7494D400C30531 /* weather_launch.png */,
 				63D6359F1E7452D000C30531 /* Search-50.png */,
 			);
 			name = resources;
@@ -250,6 +253,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63D635A61E7494D400C30531 /* weather_launch.png in Resources */,
 				63D635A01E7452D000C30531 /* Search-50.png in Resources */,
 				639396E71E7384EB00F9116E /* LaunchScreen.storyboard in Resources */,
 				639396E41E7384EB00F9116E /* Assets.xcassets in Resources */,

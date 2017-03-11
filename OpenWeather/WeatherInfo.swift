@@ -8,7 +8,10 @@
 
 import Foundation
 
+// Class for load weather in tableview
+
 class WeatherInfo{
+    
     
     var info : String?
     var value : String?

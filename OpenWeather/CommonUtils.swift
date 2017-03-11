@@ -44,17 +44,24 @@ class CommonUtils{
     
     //Convert Milliseconds to hours & minute
     
-//    func stringFromTimeInterval(interval: TimeInterval) -> NSString {
-//        
-//        let ti = NSInteger(interval)
-//        
-//        let ms = Int((interval % 1) * 1000)
-//        
-//        let seconds = ti % 60
-//        let minutes = (ti / 60) % 60
-//        let hours = (ti / 3600)
-//        
-//        return NSString(format: "%0.2d:%0.2d:%0.2d.%0.3d",hours,minutes,seconds,ms)
-//    }
+    static func stringFromMilliseconds(interval: Int) -> String {
+        
+        let date = NSDate(timeIntervalSince1970: TimeInterval(interval))
+        
+        print(date)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm a"
+        let timeZone = TimeZone.ReferenceType.system
+        dateFormatter.timeZone = timeZone as TimeZone!
+//        let calendar = Calendar.current
+//        let comp = calendar.dateComponents([.hour, .minute], from: date as Date)
+//        let hour = dateFormatter.hour
+//        let minute = comp.minute
+        
+        let hour = dateFormatter.string(from: date as Date)
+       
+        return hour
+    }
     
 }

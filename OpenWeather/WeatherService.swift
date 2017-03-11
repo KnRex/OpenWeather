@@ -16,7 +16,8 @@ class WeatherService {
     private let openWeatherMapAPIKey = "5fad988ce5de1a276142e4ea733ebedc"
     
     
-    // Service to get weather deatails for particulat city
+    // This function calls open weather api for weather info. 
+    // Completion handler for failure & success callback
     
     func getWeatherForCity(city: String,  completionHandler:@escaping (WeatherDetail?, String?)-> Void) {
         
@@ -64,10 +65,6 @@ class WeatherService {
                             }
                         }
                      
-                        
-                        
-                        
-                    
                     }
                     
                 } catch {

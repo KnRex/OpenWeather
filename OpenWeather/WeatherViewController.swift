@@ -9,8 +9,10 @@
 import UIKit
 import CoreLocation
 
+
 class WeatherViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, UISearchBarDelegate {
     
+    // UI elements
     
     @IBOutlet weak var cityLabel: UILabel!
 
@@ -23,6 +25,8 @@ class WeatherViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var descriptionLabel: UILabel!
     
     @IBOutlet weak var searchField: UISearchBar!
+    
+    //Location Manager
     
     var locationManager: CLLocationManager = CLLocationManager()
     
@@ -37,6 +41,9 @@ class WeatherViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.delegate = self
         tableView.dataSource = self
         searchField.delegate = self
+        
+        tableView.backgroundColor = UIColor.clear
+        tableView.backgroundView?.backgroundColor = UIColor.clear
         
         if(CommonUtils.getLastSearchedCity()==nil){
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -57,29 +64,6 @@ class WeatherViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     
-    func getWeatherForCity(city: String){
-        let weatherService = WeatherService()
-        weatherService.getWeatherForCity(city: city){
-            (result: WeatherDetail?, error:String?) in
-            if  error == nil{
-                if(result!.cod==200){
-                self.updateWeatherInfo(result: result)
-                }
-            }
-            else{
-                DispatchQueue.main.async() { () -> Void in
-                    let myAlert = UIAlertView()
-                    myAlert.title = "Alert!"
-                    myAlert.message = error!
-                    myAlert.addButton(withTitle: "Ok")
-                    myAlert.delegate = self   
-                    myAlert.show()
-                
-                }
-            }
-        };
-        
-    }
     
     
     //MARK: UITableView Delegates
@@ -89,10 +73,17 @@ class WeatherViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?{
-        return "Today Weather Condition"
+        return "Today's Weather Condition"
     }
     
-    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let vw = UILabel(frame:CGRect(x: 20, y: 0, width: 320, height: 320))
+        vw.font = UIFont(name:"HelveticaNeue", size: 18.0)
+        vw.backgroundColor = UIColor.clear
+        vw.textColor = UIColor.white
+        vw.text = "   Today's Weather Condition"
+        return vw
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.tableViewData.count
@@ -100,6 +91,8 @@ class WeatherViewController: UIViewController, UITableViewDataSource, UITableVie
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! WeatherDayViewCell
+        cell.contentView.backgroundColor = UIColor .clear
+        
         
         let weatherInfo = tableViewData[indexPath.row]
         
@@ -109,20 +102,31 @@ class WeatherViewController: UIViewController, UITableViewDataSource, UITableVie
         return cell;
     }
     
-    // Update weather info to the screen
+    // Update weather information for the city
     func updateWeatherInfo(result : WeatherDetail?){
+        
+        self.tableViewData.removeAll()
+        self.tableView.reloadData()
         CommonUtils.saveSearchedCity(value: result!.name!)
-        let sunrise =  WeatherInfo(info: "Sunrise", value: String(result!.sys!.sunrise!))
-        let sunset =  WeatherInfo(info: "Sunset", value: String(result!.sys!.sunset!))
-        let humidity = WeatherInfo(info: "Humidity", value:String(result!.main!.humidity!))
-        let pressure = WeatherInfo(info: "Pressure", value:String(result!.main!.pressure!))
-        let windSpeed = WeatherInfo(info: "Wind Speed", value: String(result!.wind!.speed!))
+        let sunrise =  WeatherInfo(info: "Sunrise", value: CommonUtils.stringFromMilliseconds(interval: result!.sys!.sunrise!) as String)
+        let sunset =  WeatherInfo(info: "Sunset", value: CommonUtils.stringFromMilliseconds(interval:
+            result!.sys!.sunset!) as String)
+        let humidityValue = String(result!.main!.humidity!) + "%"
+        let humidity = WeatherInfo(info: "Humidity", value: humidityValue)
+        let pressureValue = String(result!.main!.pressure!) + " hPa"
+        let pressure = WeatherInfo(info: "Pressure", value:pressureValue)
+        let windSpeedVal = String(result!.wind!.speed!) + " km/hr"
+        let windSpeed = WeatherInfo(info: "Wind Speed", value: windSpeedVal)
+        
+        let visibilityValue = String(result!.visibility!) + " km"
+        let visibility = WeatherInfo(info: "Visibility", value: visibilityValue)
         
         self.tableViewData.append(sunrise)
         self.tableViewData.append(sunset)
         self.tableViewData.append(humidity)
         self.tableViewData.append(pressure)
         self.tableViewData.append(windSpeed)
+        self.tableViewData.append(visibility)
         self.tableView.reloadData()
         descriptionLabel.text =  result!.weather![0].description!
         let temperature = CommonUtils.convertKelvinToFarenheit(value: result!.main!.temp!) + "\u{00B0}" + " F / " + ""+CommonUtils.convertKelvinToCelsius(value: result!.main!.temp!) + "\u{00B0}" + " C ";
@@ -152,13 +156,7 @@ class WeatherViewController: UIViewController, UITableViewDataSource, UITableVie
     
     
     //MARK: SearchBar Delegates
-    public func searchBarTextDidEndEditing(_ searchBar: UISearchBar){
-        if let searchTextField:UITextField = searchBar.subviews[0].subviews[2] as? UITextField {
-            searchTextField.enablesReturnKeyAutomatically = false
-            print(searchTextField.text!)
-        }
-    
-}
+   
     
     public func searchBarSearchButtonClicked(_ searchBar: UISearchBar){
         print(searchBar.text!)
@@ -170,7 +168,7 @@ class WeatherViewController: UIViewController, UITableViewDataSource, UITableVie
     
     //MARK: Location Delegates
     
-    // First fetch city from location corodinates to display weather information
+    // First time fetch city from location corodinates to display weather information
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let geoCoder = CLGeocoder()
         let lastLocation: CLLocation = locations[locations.count - 1]
@@ -207,6 +205,34 @@ class WeatherViewController: UIViewController, UITableViewDataSource, UITableVie
     }
         
     }
+    
+    
+    //This function calls api to get the weather report. Throws alert incase of error.
+    
+    func getWeatherForCity(city: String){
+        let weatherService = WeatherService()
+        weatherService.getWeatherForCity(city: city){
+            (result: WeatherDetail?, error:String?) in
+            if  error == nil{
+                if(result!.cod==200){
+                    self.updateWeatherInfo(result: result)
+                }
+            }
+            else{
+                DispatchQueue.main.async() { () -> Void in
+                    let myAlert = UIAlertView()
+                    myAlert.title = "Alert!"
+                    myAlert.message = error!
+                    myAlert.addButton(withTitle: "Ok")
+                    myAlert.delegate = self
+                    myAlert.show()
+                    
+                }
+            }
+        };
+        
+    }
+
     
     
     
