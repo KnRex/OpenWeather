@@ -24,7 +24,11 @@ class WeatherService {
         // This is a pretty simple networking task, so the shared session will do.
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
-        let weatherRequestURL = URL(string: "\(openWeatherMapBaseURL)?APPID=\(openWeatherMapAPIKey)&q=\(city)")!
+        let escapedString = city.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+        print(escapedString!);
+
+        
+        let weatherRequestURL = URL(string: "\(openWeatherMapBaseURL)?APPID=\(openWeatherMapAPIKey)&q=\(escapedString!)")!
         
         let task = session.dataTask(with: weatherRequestURL, completionHandler: {
             (data, response, error) in
