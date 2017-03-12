@@ -108,25 +108,61 @@ class WeatherViewController: UIViewController, UITableViewDataSource, UITableVie
         self.tableViewData.removeAll()
         self.tableView.reloadData()
         CommonUtils.saveSearchedCity(value: result!.name!)
-        let sunrise =  WeatherInfo(info: "Sunrise", value: CommonUtils.stringFromMilliseconds(interval: result!.sys!.sunrise!) as String)
-        let sunset =  WeatherInfo(info: "Sunset", value: CommonUtils.stringFromMilliseconds(interval:
-            result!.sys!.sunset!) as String)
-        let humidityValue = String(result!.main!.humidity!) + "%"
-        let humidity = WeatherInfo(info: "Humidity", value: humidityValue)
-        let pressureValue = String(result!.main!.pressure!) + " hPa"
-        let pressure = WeatherInfo(info: "Pressure", value:pressureValue)
-        let windSpeedVal = String(result!.wind!.speed!) + " km/hr"
-        let windSpeed = WeatherInfo(info: "Wind Speed", value: windSpeedVal)
         
-        let visibilityValue = String(result!.visibility!) + " km"
-        let visibility = WeatherInfo(info: "Visibility", value: visibilityValue)
+  
         
-        self.tableViewData.append(sunrise)
-        self.tableViewData.append(sunset)
-        self.tableViewData.append(humidity)
-        self.tableViewData.append(pressure)
-        self.tableViewData.append(windSpeed)
-        self.tableViewData.append(visibility)
+        if(result!.sys!.sunrise != nil){
+            
+            let sunrise =  WeatherInfo(info: "Sunrise", value: CommonUtils.stringFromMilliseconds(interval: result!.sys!.sunrise!) as String)
+            self.tableViewData.append(sunrise)
+
+        }
+  
+    
+
+        
+        if(result!.sys!.sunset != nil){
+            let sunset =  WeatherInfo(info: "Sunset", value: CommonUtils.stringFromMilliseconds(interval:
+                result!.sys!.sunset!) as String)
+            self.tableViewData.append(sunset)
+
+        }
+        
+    
+        
+        if(result!.main!.humidity != nil){
+             let humidityValue = String(result!.main!.humidity!) + "%"
+            let humidity = WeatherInfo(info: "Humidity", value: humidityValue)
+            self.tableViewData.append(humidity)
+
+        }
+        
+        
+        
+        if(result!.main!.pressure != nil){
+            let pressureValue = String(result!.main!.pressure!) + " hPa"
+            let pressure = WeatherInfo(info: "Pressure", value:pressureValue)
+            self.tableViewData.append(pressure)
+
+        }
+        
+        
+        
+        if(result!.wind!.speed != nil){
+            let windSpeedValue = String(result!.wind!.speed!) + " km/hr"
+            let windSpeed = WeatherInfo(info: "Wind Speed", value: windSpeedValue)
+            self.tableViewData.append(windSpeed)
+
+        }
+        
+        
+        if(result!.visibility != nil){
+         let visibilityValue = String(result!.visibility!) + " km"
+            let visibility = WeatherInfo(info: "Visibility", value: visibilityValue)
+            self.tableViewData.append(visibility)
+        }
+        
+        
         self.tableView.reloadData()
         descriptionLabel.text =  result!.weather![0].description!
         let temperature = CommonUtils.convertKelvinToFarenheit(value: result!.main!.temp!) + "\u{00B0}" + " F / " + ""+CommonUtils.convertKelvinToCelsius(value: result!.main!.temp!) + "\u{00B0}" + " C ";
